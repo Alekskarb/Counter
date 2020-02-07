@@ -11,20 +11,24 @@ const Menu =(props)=> {
         props.setMaxValue(newValue);}
 
     return (
-        <div className="input">
-            <span>max value</span>
+        <div className="container">
+            <span className='button'>max value:</span>
             <div>
-                <input type="number" onChange={changeMaxValue}
-                       value={props.maxData} className={props.invalidValue}/>
+                <input type="number"
+                       onChange={changeMaxValue}
+                       disabled={props.maxInputSwitch}
+                       value={props.maxData}
+                       className={props.invalidMaxValue}/>
             </div>
-            <br/>
-            <span>start value</span>
+            <span className='button'>start value:</span>
             <div>
-                <input type="number" onChange={changeStartValue}
-                       value={props.startData} className={props.invalidValue}
-                />
+                <input type="number"
+                       onChange={changeStartValue}
+                       disabled={props.startInputSwitch}
+                       // onClick={changeStartValue}
+                       value={props.startData}
+                       className={props.invalidStartValue} />
             </div>
-            <button onClick={props.setValue} disabled={props.isButtonSetDisabled}>Set</button>
         </div>
     );
 }

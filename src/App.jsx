@@ -1,103 +1,165 @@
 import React from 'react';
 import './App.css';
-
 import Menu from "./comps/Menu";
 import Display from "./comps/Display";
-import ButtonS from "./comps/ButtonS";
+import Button from "./comps/Button";
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startValue: 1,
+            startValue: 0,
             maxValue: 5,
-            newStartValue: 0,
-            title: ['SET', 'UP', 'RESET'],
-            buttonSwitch: false,
-            inputSwitch: false,
-            isDataSet: false,
-            isButtonSetDisabled: false
-        };}
+            startInputSwitch: false,
+            maxInputSwitch: false,
+            setSwitch: false,
+            upSwitch: true,
+            resetSwitch: false,
+            invalidDisplayValues: false
+        };
+    }
+
+    newStartValue = 0;
 
     setStartValue = (minimum) => {
-
-        if (minimum <= 0 || minimum >= this.state.maxValue) {
-            this.setState({
-                inputSwitch: true
-            })
-        } else {
-            this.setState({
-                startValue: minimum,
-                inputSwitch: false
-            })}}
-
-    setMaxValue = (maximum) => {if ( this.state.maxValue !== this.state.startValue && this.state.maxValue > 0 )
-        {this.setState({maxValue: maximum})}
-    else {this.setState({inputSwitch: true})}};
-
-    setValue = () => {
         this.setState({
-            inputSwitch: true,
-            buttonSwitch: false,
-            isButtonSetDisabled: true,
-            isDataSet: true,
-            newStartValue: this.state.startValue
-        })};
+                startValue: minimum,
+                startInputSwitch: false,
+                setSwitch: false,
+                maxInputSwitch: false,
+                invalidDisplayValues: false,
+            },
+            () => {
+                if (this.state.startValue <= 0 || this.state.maxValue <= 0 || this.state.startValue >= this.state.maxValue) {
+                    this.setState({
+                        startInputSwitch: true,
+                        setSwitch: true,
+                    }, () => this.saveState())
+                } else {this.saveState()
+                }
+            })
+    }
 
-componentDidMount() {this.saveState()};
-    saveState = (state) => {localStorage.setItem('state', JSON.stringify(state))}
+    setMaxValue = (maximum) => {
+        this.setState({
+                maxValue: maximum,
+                setSwitch: false,
+                maxInputSwitch: false,
+                startInputSwitch: false,
+                invalidDisplayValues: false,
+            },
+            () => {
+                if (this.state.maxValue <= 0 || this.state.startValue <= 0 || this.state.maxValue <= this.state.startValue ) {
+                    this.setState({
+                        maxInputSwitch: true,
+                        setSwitch: true
+                        },()=> this.saveState())
+                } else {this.saveState()
+                }
+            })
+    };
 
-    addValue = (values) => {if (this.state.newStartValue < this.state.maxValue)
-        {this.setState({
+
+setValue = () => {
+    this.setState({
+        upSwitch: false,
+        resetSwitch: false,
+        setSwitch: true,
+        newStartValue: this.state.startValue
+    }, () => {
+        this.saveState()
+    })
+};
+
+componentDidMount()
+{this.restoreState()};
+
+saveState = (state) => {
+    let stateToString = JSON.stringify(this.state);
+    localStorage.setItem('store', stateToString)
+}
+
+restoreState = () => {
+    let state = {}, stringToState = localStorage.getItem('store');
+    if (stringToState != null) {
+        state = JSON.parse(stringToState)
+    }
+    this.setState(state)
+}
+
+addValue = (newStartValue) => {
+        this.setState({
+            invalidDisplayValues: false,
             newStartValue: Number(this.state.newStartValue) + 1,
-            buttonSwitch: false})}
-    else {this.setState({buttonSwitch: true})}}
+            upSwitch: false,
+        },
+            ()=> {
+            if (this.state.newStartValue >= this.state.maxValue)
+            {this.setState({
+                upSwitch: true,
+                invalidDisplayValues: true,
+            }
+            )} else {
+                    this.saveState()
+                }
+        })
+}
 
-    deleteValue = () => {
-        this.setState({newStartValue: this.state.startValue, buttonSwitch: true});};
+deleteValue = () => {
+    this.setState({
+        startValue: 1,
+        maxValue: 3,
+        upSwitch: true,
+        startInputSwitch: false,
+        maxInputSwitch: false,
+        setSwitch: false,
+        newStartValue: this.state.startValue,
+        invalidDisplayValues: false
+    }, () => {
+        this.saveState()
+    });
+};
 
-    activateEditMode =()=> {
-            this.setState({buttonSwitch: true});
-        }
+render() {
+    let invalidMaxValue = this.state.maxInputSwitch ? 'maxError' : '';
+    let invalidStartValue = this.state.startInputSwitch ? 'startError' : '';
+    let invalidDisplayValues = this.state.invalidDisplayValues ? 'displayError' : '';
+    return (
+        <div className='wrapper'>
+            <div className='menu'>
+                <Menu setStartValue={this.setStartValue}
+                      setMaxValue={this.setMaxValue}
+                      startData={this.state.startValue}
+                      maxData={this.state.maxValue}
+                      invalidMaxValue={invalidMaxValue}
+                      invalidStartValue={invalidStartValue}
+                      startInputSwitch={this.state.startInputSwitch}
+                      maxInputSwitch={this.state.maxInputSwitch}/>
 
-        deactivatedEditMode =()=> {if (this.state.newStartValue === this.state.maxValue)
-            {this.setState({buttonSwitch: false})};
-        }
+                <Button setData={this.setValue} title='SET'
+                        switch={this.state.setSwitch}/>
+            </div>
+            <div className='display'>
 
-   // reset
+                <Display startDisplay={this.state.newStartValue}
+                         setSwitch={this.state.setSwitch}
+                         invalidDisplayValues={invalidDisplayValues}
+                         startData={this.state.startValue}
+                         maxData={this.state.maxValue}
+                />
 
-    render() {
-       let invalidValue = this.state.inputSwitch ? 'mistake': '';
-        return (
-            <div className='wrapper'>
-                <div className='menu'>
-                    <Menu setStartValue={this.setStartValue}
-                          setMaxValue={this.setMaxValue}
-                          startData={this.state.startValue}
-                          maxData={this.state.maxValue}
-                          invalidValue={invalidValue}
-                          setValue={this.setValue}
-                          isButtonSetDisabled={this.state.isButtonSetDisabled}
+                <div className='displayButton'>
+                    <Button setData={this.addValue} title='UP'
+                            switch={this.state.upSwitch}/>
+
+                    <Button setData={this.deleteValue} title='RESET'
+                            switch={this.state.resetSwitch}
                     />
-                    {/*<ButtonS setData={this.setValue} title={this.state.title[0]}*/}
-                    {/*         switch={this.state.buttonSwitch} isButtonSetDisabled={this.state.isButtonSetDisabled}/>*/}
-                </div>
-                <div className='display'>
-                    <Display startDisplay={this.state.newStartValue} isDataSet={this.state.isDataSet}/>
-                    <div className='button'>
-                        <span>
-                            <ButtonS setData={this.addValue} title={this.state.title[1]}
-                                     switch={this.state.buttonSwitch} isButtonSetDisabled={this.state.isButtonSetDisabled}/>
-                        </span>
-                        <span>
-                            <ButtonS setData={this.deleteValue} title={this.state.title[2]}
-                                     switch={this.state.buttonSwitch} isButtonSetDisabled={this.state.isButtonSetDisabled}/>
-                        </span>
-                    </div>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
+}
 }
 
 export default App;

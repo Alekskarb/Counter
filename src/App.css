@@ -1,52 +1,94 @@
-
 .wrapper {
-  background-color: black;
-  min-height: 90vh;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  color: white;
+    background-color: black;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
 }
 
 .menu {
-   background-color: darkslateblue;
-   min-height: 180pt;
-   display: flex;
-  width: 200pt;
-   flex-direction: row;
-   align-items: center;
-   justify-content: center;
-   font-size: 20px;
-   color: white;
- }
+    background-color: darkslateblue;
+    height: 300px;
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    height: 200px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
 
 .display {
-  background-color: blueviolet;
-  min-height: 180pt;
-  display: flex;
-  width: 200pt;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-size: 12pt;
-  color: white;
-}
-.button {
-  background-color: darkblue;
-  min-height: 60px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: end;
-  font-size: 12pt;
-  color: white;
+    background-color: blueviolet;
+    height: 300px;
+    display: flex;
+    width: 300px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
-.mistake {
-    border-color: orangered;
+.displayButton {
+    height: 90px;
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+}
+
+.button {
+    height: 30px;
+    width: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-radius: 15px;
+}
+
+.text {
+    height: 90px;
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18pt;
+    text-align: center;
+}
+
+.maxError {
+    opacity: 0.5;
+    background-color: red;
+}
+
+.startError {
+    background-color: red;
     opacity: 0.5;
 }
 
+.displayError {
+    height: 80px;
+    width: 80px;
+    font-weight: bold;
+    color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24pt;
+}
 
