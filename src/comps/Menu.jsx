@@ -8,7 +8,7 @@ const Menu =(props)=> {
 
     let changeMaxValue = (event) => {
         let newValue = event.currentTarget.value;
-        props.setMaxValue(newValue);}
+        props.setMaxValue(newValue);};
 
     return (
         <div className="container">
@@ -25,13 +25,12 @@ const Menu =(props)=> {
                 <input type="number"
                        onChange={changeStartValue}
                        disabled={props.startInputSwitch}
-                       // onClick={changeStartValue}
                        value={props.startData}
                        className={props.invalidStartValue} />
             </div>
         </div>
     );
-}
+};
 
 
 export default Menu;

@@ -38,7 +38,7 @@ class App extends React.Component {
                 } else {this.saveState()
                 }
             })
-    }
+    };
 
     setMaxValue = (maximum) => {
         this.setState({
@@ -74,10 +74,10 @@ setValue = () => {
 componentDidMount()
 {this.restoreState()};
 
-saveState = (state) => {
+saveState = () => {
     let stateToString = JSON.stringify(this.state);
     localStorage.setItem('store', stateToString)
-}
+};
 
 restoreState = () => {
     let state = {}, stringToState = localStorage.getItem('store');
@@ -85,9 +85,9 @@ restoreState = () => {
         state = JSON.parse(stringToState)
     }
     this.setState(state)
-}
+};
 
-addValue = (newStartValue) => {
+addValue = () => {
         this.setState({
             invalidDisplayValues: false,
             newStartValue: Number(this.state.newStartValue) + 1,
@@ -103,7 +103,7 @@ addValue = (newStartValue) => {
                     this.saveState()
                 }
         })
-}
+};
 
 deleteValue = () => {
     this.setState({
