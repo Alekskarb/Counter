@@ -1,14 +1,16 @@
 import React from 'react';
 
-const Menu =(props)=> {
+const Menu = (props) => {
 
     let changeStartValue = (event) => {
         let value = Number(event.currentTarget.value);
-        props.setStartValue(value);};
+        props.setStartValue(value);
+    };
 
     let changeMaxValue = (event) => {
         let newValue = event.currentTarget.value;
-        props.setMaxValue(newValue);};
+        props.setMaxValue(newValue);
+    };
 
     return (
         <div className="container">
@@ -26,7 +28,7 @@ const Menu =(props)=> {
                        onChange={changeStartValue}
                        disabled={props.startInputSwitch}
                        value={props.startData}
-                       className={props.invalidStartValue} />
+                       className={props.invalidStartValue}/>
             </div>
         </div>
     );
